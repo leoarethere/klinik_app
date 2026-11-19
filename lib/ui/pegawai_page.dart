@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../model/pegawai.dart';
+import '../widget/sidebar.dart';
 import 'pegawai_detail.dart';
+import 'pegawai_form.dart';
 
 class PegawaiPage extends StatefulWidget {
   const PegawaiPage({super.key});
@@ -10,7 +12,6 @@ class PegawaiPage extends StatefulWidget {
 }
 
 class _PegawaiPageState extends State<PegawaiPage> {
-  // Data dummy, sementara. Nanti diganti dari API.
   final List<Pegawai> _listPegawai = [
     Pegawai(
       id: "1",
@@ -44,7 +45,21 @@ class _PegawaiPageState extends State<PegawaiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Data Pegawai")),
+      drawer: const Sidebar(),        // 👈 tambahkan
+      appBar: AppBar(
+        title: const Text("Data Pegawai"),
+        actions: [
+          GestureDetector(
+            child: const Icon(Icons.add),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PegawaiForm()),
+              );
+            },
+          ),
+        ],
+      ),
       body: ListView.builder(
         itemCount: _listPegawai.length,
         itemBuilder: (context, index) {

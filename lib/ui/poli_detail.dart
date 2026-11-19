@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../model/poli.dart';
+import 'poli_page.dart';
+import 'poli_update_form.dart';
 
 class PoliDetail extends StatefulWidget {
   final Poli poli;
@@ -26,20 +28,64 @@ class _PoliDetailState extends State<PoliDetail> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                child: const Text("Ubah"),
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                child: const Text("Hapus"),
-              ),
+              _tombolUbah(),
+              _tombolHapus(),
             ],
           ),
         ],
       ),
+    );
+  }
+
+  // ===== TOMBOL UBAH =====
+  Widget _tombolUbah() {
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PoliUpdateForm(poli: widget.poli),
+          ),
+        );
+      },
+      style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+      child: const Text("Ubah"),
+    );
+  }
+
+  // ===== TOMBOL HAPUS =====
+  Widget _tombolHapus() {
+    return ElevatedButton(
+      onPressed: () {
+        AlertDialog alertDialog = AlertDialog(
+          content: const Text("Yakin ingin menghapus data ini?"),
+          actions: [
+            // Tombol YA
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context); // tutup dialog
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PoliPage()),
+                );
+              },
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              child: const Text("YA"),
+            ),
+            // Tombol Tidak
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context); // tutup dialog saja
+              },
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+              child: const Text("Tidak"),
+            ),
+          ],
+        );
+        showDialog(context: context, builder: (context) => alertDialog);
+      },
+      style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+      child: const Text("Hapus"),
     );
   }
 }

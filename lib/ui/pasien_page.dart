@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../model/pasien.dart';
+import '../widget/sidebar.dart';
 import 'pasien_detail.dart';
+import 'pasien_form.dart';
 
 class PasienPage extends StatefulWidget {
   const PasienPage({super.key});
@@ -40,7 +42,21 @@ class _PasienPageState extends State<PasienPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Data Pasien")),
+      drawer: const Sidebar(),        // 👈 tambahkan
+      appBar: AppBar(
+        title: const Text("Data Pasien"),
+        actions: [
+          GestureDetector(
+            child: const Icon(Icons.add),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PasienForm()),
+              );
+            },
+          ),
+        ],
+      ),
       body: ListView.builder(
         itemCount: _listPasien.length,
         itemBuilder: (context, index) {
